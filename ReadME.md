@@ -14,9 +14,35 @@
 ![Git Diff on different directories](images/GitDiff.png)
 
 **History**  
-See repository commit history with command `git log [options]`. Each commit has a commit ID. We can switch to any commit by `git checkout {commitID}`
+See repository commit history with command `git log [options]`. Each commit has a commit ID. We can switch to any commit by `git checkout {commitID}`  
 
 ![History Diagram](images/CurrentHistoryDiagram.png)  
+
+#### Behavior of `git checkout` ####
+> Checking out an earlier commit will change the state of at least one file.
+>
+> This is sometimes true. Git doesn't allow you to save a new commit if no files have been updated, so you might think this is always true. However, it's possible to do the following:
+>
+> Save a commit (call this commit 1).
+> Update some files and save another commit (call this commit 2).
+> Change all the files back to their state during commit 1, then save again (call this commit 3).
+> This sometimes happens if commit 2 contained a bug, and it's important to fix the bug quickly. The easiest thing to do might be to remove all the changes introduced by commit 2 to fix the bug, then figure out how to safely reintroduce the changes later.
+> 
+> At this point, commit 3 is the latest commit, so if you checkout commit 1, none of the files will be changed. 
+> 
+> 
+> Checking out an earlier commit will change the state of more than one file.
+> 
+> Checking out an earlier commit will change the state of every file in the repository.
+> 
+> Both of these are sometimes true. Since each commit tracks the state of all files in the repository, it is possible that checking out an earlier commit will change the state of multiple files, or even all the files in the repository. However, it is possible to save a new commit after changing only one file, so it is possible only one file will change. 
+> 
+> 
+> After checking out a commit, the state of all the files in the repository will be from the same point in time.
+> 
+> This is always true. **A commit saves a snapshot of all files in the repository at the time the commit was made**, so checking out an  earlier commit will result in all the files being reverted to their state at the time the commit was made. That is, the files will  be in a consistent state.
+
+
 
 **Merge**: We can work on branch and while merging, we find the differences between branch and resolve the conflicts. This diagram shows how `git` decides to keep changes or flag the conflict.  
 ![Merging File Manual](images/MergingFilesManual.png)
@@ -26,14 +52,39 @@ If the merging commit have a common ancestor and is reachable, then it is fast f
 
 ![Fast Forward merge](images/Fast-forwardMerge.png)
 
+
+> a <--- b <--- c
+
+Fast forward merge happens, if b is merged with a, when `a` can be reached by b. `git pull` update local HEAD and merge the difference in branch.  
+in the case of fast-forward merge it doesn't create another commit for merge, since they share the same ancestor. **Note: github will create another commit if done from the browser.**
+
 **Push**: Updating remote repository with all the commit history.  
 ![Merging Remote Changes](images/MergingRemoteChanges.png)
+
+#### Merge conflict ####
+If you get a merge conflict then the file will have what conflicts shown in the file.
+```
+<<<<<<< HEAD   
+code in heads
+|||||||| share common ansestors
+code in common anseteros means code in shared parents 
+=======
+code in masters
+>>>>>>> masters
+```
++ have to remove those HEAD and other comments
++ figure out which thing should be in the final files[merge repo]
++ after modified conflicts, add on stage then commit with commit message.
++ merge will be complete after _resolving the conflict_.
+
+
 
 **Concept Map**  
 Here is the full concepts map of `git` topics.  Find a  [Concept map org](https://www.udacity.com/wiki/ud775/concept-map?nocache)
 ![Git Concept Maps ](images/ConceptMapFull.png)
 
-  
+#### Pull Request ####
+think of this as, user is requesting to pull his/her change to 'main branch/master'. This is **github** command.
 
 
 
@@ -77,63 +128,10 @@ Here is the full concepts map of `git` topics.  Find a  [Concept map org](https:
 `git fetch <remoteRepoName_usually_origin>` #update local <origin/master> from repo like Github.   
 
 
-### Merge conflict ###
-If you get a merge conflict then the file will have what conflicts shown in the file.
-```
-<<<<<<< HEAD   
-code in heads
-|||||||| share common ansestors
-code in common anseteros means code in shared parents 
-=======
-code in masters
->>>>>>> masters
-```
-+ have to remove those HEAD and other comments
-+ figure out which thing should be in the final files[merge repo]
-+ after modified conflicts, add on stage then commit with commit message.
-+ merge will be complete after _resolving the conflict_.
-
-
-### Fast - forward Merge ###
-a <--- b <--- c
-
-Fast forward merge happens, if b is merged with a, when `a` can be reached by b. `git pull` update local HEAD and merge the difference in branch.  
-in the case of fast-forward merge it doesn't create another commit for merge, since they share the same ancestor.
-
-**Note**: github will create another commit if done from the browser.
-
-
-### Pull Request ###
-think of this as, user is requesting to pull his/her change to 'main branch/master'. This is **github** command.
-
-### Behavior of `git checkout` ###
-> Checking out an earlier commit will change the state of at least one file.
->
-> This is sometimes true. Git doesn't allow you to save a new commit if no files have been updated, so you might think this is always true. However, it's possible to do the following:
->
-> Save a commit (call this commit 1).
-> Update some files and save another commit (call this commit 2).
-> Change all the files back to their state during commit 1, then save again (call this commit 3).
-> This sometimes happens if commit 2 contained a bug, and it's important to fix the bug quickly. The easiest thing to do might be to remove all the changes introduced by commit 2 to fix the bug, then figure out how to safely reintroduce the changes later.
-> 
-> At this point, commit 3 is the latest commit, so if you checkout commit 1, none of the files will be changed. 
-> 
-> 
-> Checking out an earlier commit will change the state of more than one file.
-> 
-> Checking out an earlier commit will change the state of every file in the repository.
-> 
-> Both of these are sometimes true. Since each commit tracks the state of all files in the repository, it is possible that checking out an earlier commit will change the state of multiple files, or even all the files in the repository. However, it is possible to save a new commit after changing only one file, so it is possible only one file will change. 
-> 
-> 
-> After checking out a commit, the state of all the files in the repository will be from the same point in time.
-> 
-> This is always true. **A commit saves a snapshot of all files in the repository at the time the commit was made**, so checking out an  earlier commit will result in all the files being reverted to their state at the time the commit was made. That is, the files will  be in a consistent state.
-
-
 
 ### Linux Commands ###
 
+`:q`  #type q to quit from rendering long log or diff 
 `pwd`  # print working directory  
 `ls`  # list the files in this directory  
 `ls -a` ## show all files including hidden files  
