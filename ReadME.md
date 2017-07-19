@@ -1,4 +1,7 @@
 ## Git and Github ##
+[Udacity Course](https://www.udacity.com/course/how-to-use-git-and-github--ud775)
+
+[Git training **cheat sheet**  :concepts and its subsequent Commands](https://github.com/github/training-kit/blob/master/downloads/github-git-concepts_BETA.md)
 
 ### Git Concepts ###
 
@@ -30,8 +33,7 @@ If the merging commit have a common ancestor and is reachable, then it is fast f
 Here is the full concepts map of `git` topics.  Find a  [Concept map org](https://www.udacity.com/wiki/ud775/concept-map?nocache)
 ![Git Concept Maps ](images/ConceptMapFull.png)
 
-
-[Git training **cheat sheet**  :concepts and its subsequent Commands](https://github.com/github/training-kit/blob/master/downloads/github-git-concepts_BETA.md)  
+  
 
 
 
